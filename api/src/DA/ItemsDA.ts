@@ -12,6 +12,15 @@ export class ItemsDA
         return result.rows[0].id;
     }
 
+    // GET ALL
+    static async getAll(): Promise<Item[]>
+    {
+        const query = `SELECT * FROM fnGetAllItems();`;
+        const result = await pool.query(query);
+        return result.rows;
+    }
+
+
     // READ
     static async read(itemId: number): Promise<Item | null>
     {

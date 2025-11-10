@@ -4,7 +4,60 @@ import { Item } from "../models/Item";
 
 const router = express.Router();
 
-// CREATE item
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Item:
+ *       type: object
+ *       properties:
+ *         itemid:
+ *           type: integer
+ *           description: Auto-generated ID of the item
+ *         description:
+ *           type: string
+ *           description: Description of the item
+ *         category:
+ *           type: string
+ *           description: Category of the item
+ *         imagepath:
+ *           type: string
+ *           description: URL or path to the image
+ *         dateposted:
+ *           type: string
+ *           format: date-time
+ *           description: Date the item was posted
+ *         status:
+ *           type: string
+ *           enum: [Lost, Found, Returned]
+ *           description: Status of the item
+ */
+
+/**
+ * @swagger
+ * /api/items:
+ *   post:
+ *     summary: Create a new item
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Item'
+ *     responses:
+ *       201:
+ *         description: Item created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 itemId:
+ *                   type: integer
+ */
 router.post("/", async (req: Request, res: Response) =>
 {
     try
@@ -19,7 +72,29 @@ router.post("/", async (req: Request, res: Response) =>
     }
 });
 
-// READ item by ID
+/**
+ * @swagger
+ * /api/items/{id}:
+ *   get:
+ *     summary: Get an item by ID
+ *     tags: [Items]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the item to fetch
+ *     responses:
+ *       200:
+ *         description: Item found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Item'
+ *       404:
+ *         description: Item not found
+ */
 router.get("/:id", async (req: Request, res: Response) =>
 {
     try
@@ -35,7 +110,31 @@ router.get("/:id", async (req: Request, res: Response) =>
     }
 });
 
-// UPDATE item
+/**
+ * @swagger
+ * /api/items:
+ *   put:
+ *     summary: Update an existing item
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Item'
+ *     responses:
+ *       200:
+ *         description: Item updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: ItemId is required
+ */
 router.put("/", async (req: Request, res: Response) =>
 {
     try
@@ -51,7 +150,60 @@ router.put("/", async (req: Request, res: Response) =>
     }
 });
 
-// DELETE item
+/**
+ * @swagger
+ * /api/items:
+ *   get:
+ *     summary: Get all items
+ *     tags: [Items]
+ *     responses:
+ *       200:
+ *         description: List of all items
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Item'
+ */
+router.get("/", async (_req: Request, res: Response) =>
+{
+    try
+    {
+        const items = await ItemsDA.getAll();
+        res.json(items);
+    } catch (err)
+    {
+        console.error(err);
+        res.status(500).json({ error: "Failed to fetch items" });
+    }
+});
+
+
+/**
+ * @swagger
+ * /api/items/{id}:
+ *   delete:
+ *     summary: Delete an item by ID
+ *     tags: [Items]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the item to delete
+ *     responses:
+ *       200:
+ *         description: Item deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
 router.delete("/:id", async (req: Request, res: Response) =>
 {
     try
