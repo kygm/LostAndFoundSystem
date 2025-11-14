@@ -1,0 +1,22 @@
+<div class="home-container">
+    <div class="home-header">
+        <h2>Recently Posted Items</h2>
+        <a routerLink="/sign-in" class="sign-in-link">Sign In</a>
+    </div>
+
+    <div *ngIf="loading">Loading items…</div>
+
+    <div *ngIf="!loading && items.length === 0">
+        No items posted yet.
+    </div>
+
+    <div class="items-grid" *ngIf="items.length > 0">
+        <div class="item-card" *ngFor="let item of items">
+            <img *ngIf="item.imagepath" [src]="item.imagepath" alt="Item image" />
+            <h3>{{ item.description }}</h3>
+            <p><strong>Category:</strong> {{ item.category }}</p>
+            <p><strong>Status:</strong> {{ item.status }}</p>
+            <button class="view-btn">View Details</button>
+        </div>
+    </div>
+</div>
