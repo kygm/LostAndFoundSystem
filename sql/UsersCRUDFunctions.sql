@@ -27,7 +27,8 @@ RETURNS TABLE (
     LastName VARCHAR,
     UserType VARCHAR,
     Email VARCHAR,
-    PhoneNumber VARCHAR
+    PhoneNumber VARCHAR,
+	Password VARCHAR
 ) AS $$
 BEGIN
     RETURN QUERY
@@ -36,7 +37,8 @@ BEGIN
            Users.LastName,
            Users.UserType,
            Users.Email,
-           Users.PhoneNumber
+           Users.PhoneNumber,
+		   Users.Password
     FROM Users
     ORDER BY Users.LastName, Users.FirstName;
 END;
@@ -51,6 +53,7 @@ RETURNS TABLE (
     LastName VARCHAR,
     UserType VARCHAR,
     Email VARCHAR,
+    Password VARCHAR,
     PhoneNumber VARCHAR
 ) AS $$
 BEGIN
