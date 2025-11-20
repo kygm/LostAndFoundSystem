@@ -40,13 +40,4 @@ export class UsersService
     );
   }
 
-  // src/app/services/items.service.ts
-  claim(itemId: number, userId: number): Observable<any>
-  {
-    // Call UserItems API to mark as found / associate user
-    const url = `http://localhost:3000/useritems/${itemId}`;
-    const body = { isfound: true, claimedbyuserid: userId };
-    return this.http.put(url, body);
-  }
-
 }
